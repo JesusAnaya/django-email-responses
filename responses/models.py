@@ -6,12 +6,6 @@ DESTINATION_TYPES = (
     ('bcc', 'Bcc'),
 )
 
-class Token(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __unicode__(self):
-        return self.name
-
 
 class FromAddress(models.Model):
     address = models.EmailField()
@@ -21,7 +15,7 @@ class FromAddress(models.Model):
 
 
 class Response(models.Model):
-    token = models.ForeignKey(Token)
+    token = models.CharField(max_length=255)
     from_address = models.ForeignKey(FromAddress, verbose_name="From")
     subject = models.CharField(max_length=255)
     content = models.TextField()
@@ -34,4 +28,3 @@ class Destination(models.Model):
     response = models.ForeignKey(Response)
     send_type = models.CharField(max_length=5, choices=DESTINATION_TYPES)
     address = models.EmailField()
-

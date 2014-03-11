@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Response, Destination, Token, FromAddress
+from .models import Response, Destination, FromAddress
 
 # Compatible with Mezzanine CMS Framework
 #
@@ -17,9 +17,9 @@ class DestinationInline(TABULAR_CLASS):
 
 
 class ResponseAdmin(admin.ModelAdmin):
+    list_display = ('token', 'subject', 'from_address')
     inlines = (DestinationInline,)
 
 
 admin.site.register(FromAddress)
-admin.site.register(Token)
 admin.site.register(Response, ResponseAdmin)
