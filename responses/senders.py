@@ -21,7 +21,11 @@ def send_email(token, context={}, to=None):
         bcc = get_destinations(response.id, 'bcc')
 
         subject = Template(response.subject).render(Context(context))
-        from_email = response.from_address.address
+
+        if response.alternative_from:
+            from_email = Template(response.alternative_from).render(Context(context))
+        else:
+            from_email = response.from_address.address
 
         send_html_email(subject, from_email, message, to_address, cc, bcc)
 
