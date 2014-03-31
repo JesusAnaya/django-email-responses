@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Response, Destination, FromAddress
+from .forms import ResponseForm
 
 # Compatible with Mezzanine CMS Framework
 #
@@ -17,9 +18,16 @@ class DestinationInline(TABULAR_CLASS):
 
 
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ('token', 'subject', 'from_address')
+    class Media:
+        js = (
+            '/static/responses/tiny_mce/tinymce.min.js',
+            '/static/responses/tinymce.js',
+        )
+
+    form = ResponseForm
+    list_display = ('token', 'subject', 'from_address', 'alternative_from')
     inlines = (DestinationInline,)
 
 
-admin.site.register(FromAddress)
 admin.site.register(Response, ResponseAdmin)
+admin.site.register(FromAddress)

@@ -20,7 +20,7 @@ def send_email(token, context={}, to=None):
         cc = get_destinations(response.id, 'cc')
         bcc = get_destinations(response.id, 'bcc')
 
-        subject = response.subject
+        subject = Template(response.subject).render(Context(context))
         from_email = response.from_address.address
 
         send_html_email(subject, from_email, message, to_address, cc, bcc)
