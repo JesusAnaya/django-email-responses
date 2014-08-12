@@ -1,4 +1,5 @@
 from django.core.mail import EmailMultiAlternatives
+from django.template import Context, Template
 from django.utils.html import strip_tags
 from .models import Destination
 import logging
@@ -6,9 +7,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_destinations(response_id, send_type):
+def get_destinations(response_id, send_type, context={}):
     d = Destination.objects.filter(response=response_id, send_type=send_type)
-    return [x.address for x in d]
+    return [Template(x.address).render(Context(context)) for x in d]
 
 
 def send_html_email(subject, from_email, content, to, cc=None, bcc=None):

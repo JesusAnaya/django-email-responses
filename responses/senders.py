@@ -15,10 +15,10 @@ def send_email(token, context={}, to=None):
         if to:
             to_address = [to]
         else:
-            to_address = get_destinations(response.id, 'to')
+            to_address = get_destinations(response.id, 'to', context)
 
-        cc = get_destinations(response.id, 'cc')
-        bcc = get_destinations(response.id, 'bcc')
+        cc = get_destinations(response.id, 'cc', context)
+        bcc = get_destinations(response.id, 'bcc', context)
 
         subject = Template(response.subject).render(Context(context))
 
