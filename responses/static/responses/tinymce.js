@@ -29,6 +29,8 @@ tinymce.init({
     height: 500,
     file_browser_callback: MediaFileBrowser,
     relative_urls: false,
+    remove_script_host: false,
+    convert_urls: true,
 
     plugins: [
         "compat3x advlist autolink lists link image charmap print preview anchor",
