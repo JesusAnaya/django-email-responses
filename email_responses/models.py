@@ -16,8 +16,8 @@ class FromAddress(models.Model):
 
 class Response(models.Model):
     token = models.CharField(max_length=255)
-    from_address = models.ForeignKey(FromAddress, null=True, blank=True,
-                                                    verbose_name="From")
+    from_address = models.ForeignKey(
+        FromAddress, null=True, blank=True, verbose_name="From")
     alternative_from = models.CharField(max_length=255, null=True, blank=True)
     subject = models.CharField(max_length=255)
     content = models.TextField()

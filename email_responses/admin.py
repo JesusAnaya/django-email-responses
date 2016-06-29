@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from .models import Response, Destination, FromAddress
 from .forms import ResponseForm
@@ -20,8 +21,8 @@ class DestinationInline(TABULAR_CLASS):
 class ResponseAdmin(admin.ModelAdmin):
     class Media:
         js = (
-            '/static/responses/tiny_mce/tinymce.min.js',
-            '/static/responses/tinymce.js',
+            '{0}responses/tiny_mce/tinymce.min.js'.format(settings.STATIC_URL),
+            '{0}responses/tinymce.js'.format(settings.STATIC_URL),
         )
 
     form = ResponseForm

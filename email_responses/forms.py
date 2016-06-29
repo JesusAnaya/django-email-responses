@@ -7,3 +7,10 @@ class ResponseForm(forms.ModelForm):
 
     class Meta:
         model = Response
+        fields = (
+            'token',
+            'from_address',
+            'alternative_from',
+            'subject',
+            'content'
+        )

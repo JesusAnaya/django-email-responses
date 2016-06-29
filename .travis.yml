@@ -1,0 +1,22 @@
+#
+#   Travis config file for run all the tests
+#
+
+language: python
+
+python:
+  - 2.7
+  - 3.4
+
+env:
+  - DJANGO=1.7
+  - DJANGO=1.8
+  - DJANGO=1.9
+
+install:
+  - pip install -r dev_requirements.txt
+  - pip install django==$DJANGO --quiet
+  - pip install .
+
+script:
+  - ./tests/scripts/run_tests.sh
