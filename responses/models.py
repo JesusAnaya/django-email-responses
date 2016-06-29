@@ -29,4 +29,4 @@ class Response(models.Model):
 class Destination(models.Model):
     response = models.ForeignKey(Response)
     send_type = models.CharField(max_length=5, choices=DESTINATION_TYPES)
-    address = models.EmailField()
+    address = models.CharField(max_length=255)
