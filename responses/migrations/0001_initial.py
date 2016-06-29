@@ -1,72 +1,54 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'FromAddress'
-        db.create_table(u'responses_fromaddress', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('address', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-        ))
-        db.send_create_signal(u'responses', ['FromAddress'])
+    dependencies = [
+    ]
 
-        # Adding model 'Response'
-        db.create_table(u'responses_response', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('token', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('from_address', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['responses.FromAddress'])),
-            ('subject', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('content', self.gf('django.db.models.fields.TextField')()),
-        ))
-        db.send_create_signal(u'responses', ['Response'])
-
-        # Adding model 'Destination'
-        db.create_table(u'responses_destination', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('response', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['responses.Response'])),
-            ('send_type', self.gf('django.db.models.fields.CharField')(max_length=5)),
-            ('address', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-        ))
-        db.send_create_signal(u'responses', ['Destination'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'FromAddress'
-        db.delete_table(u'responses_fromaddress')
-
-        # Deleting model 'Response'
-        db.delete_table(u'responses_response')
-
-        # Deleting model 'Destination'
-        db.delete_table(u'responses_destination')
-
-
-    models = {
-        u'responses.destination': {
-            'Meta': {'object_name': 'Destination'},
-            'address': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'response': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['responses.Response']"}),
-            'send_type': ('django.db.models.fields.CharField', [], {'max_length': '5'})
-        },
-        u'responses.fromaddress': {
-            'Meta': {'object_name': 'FromAddress'},
-            'address': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
-        },
-        u'responses.response': {
-            'Meta': {'object_name': 'Response'},
-            'content': ('django.db.models.fields.TextField', [], {}),
-            'from_address': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['responses.FromAddress']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'subject': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'token': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        }
-    }
-
-    complete_apps = ['responses']
+    operations = [
+        migrations.CreateModel(
+            name='Destination',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('send_type', models.CharField(max_length=5, choices=[(b'to', b'To'), (b'cc', b'Cc'), (b'bcc', b'Bcc')])),
+                ('address', models.EmailField(max_length=75)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FromAddress',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('address', models.EmailField(max_length=75)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Response',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('token', models.CharField(max_length=255)),
+                ('alternative_from', models.CharField(max_length=255, null=True, blank=True)),
+                ('subject', models.CharField(max_length=255)),
+                ('content', models.TextField()),
+                ('from_address', models.ForeignKey(verbose_name=b'From', blank=True, to='responses.FromAddress', null=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='destination',
+            name='response',
+            field=models.ForeignKey(to='responses.Response'),
+            preserve_default=True,
+        ),
+    ]
